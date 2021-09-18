@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en" class="h-100">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="shortcut icon" href="../assets/img/favicon.ico" type="image/x-icon">
+
+    <title>Create new person</title>
+   
+  </head>
+  <body class="bg-light d-flex flex-column h-100">
+    
+    <div class="container pt-4 pb-4">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light rounded">
+            <a class="navbar-brand" href="#"><img src="../assets/img/filplast-logo.webp" alt=""></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample09" aria-controls="navbarsExample09" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+    
+            <div class="collapse navbar-collapse" id="navbarsExample09">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="index.html" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Orders
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                          <a class="dropdown-item" href="create-orders.html">Create</a>
+                          <a class="dropdown-item" href="../index.html">View</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="index.html" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Products
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="create-products.html">Create</a>
+                            <a class="dropdown-item" href="../view/view-products.html">View</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="companies.html" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Companies
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="create-companies.html">Create</a>
+                            <a class="dropdown-item" href="../view/view-companies.html">View</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown active">
+                        <a class="nav-link dropdown-toggle" href="index.html" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            People
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="create-people.html">Create</a>
+                            <a class="dropdown-item" href="../view/view-people.html">View</a>
+                        </div>
+                    </li>
+                </ul>
+                <form class="form-inline my-2 my-md-0">
+                <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+                </form>
+            </div>
+        </nav>
+    </div>
+        
+    <main role="main" class="flex-shrink-0">
+        <div class="container">
+            <h5 class="mb-3">New person</h5>
+            <form class="needs-validation" validate>
+                <div class="row gy-4">
+                    <div class="col-sm-6">
+                        <label for="full_name" class="form-label">Customer full name</label>
+                        <input id="full_name" type="text" class="form-control" placeholder="John Smith" autofocus required>
+                        <div class="invalid-feedback">Valid full name is required.</div>
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="lastName" class="form-label">second name</label>
+                        <input id="lastName" type="text" class="form-control" placeholder="Smith" required>
+                        <div class="invalid-feedback">
+                            Valid second name is required.
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <label for="Email" class="form-label">Email address</label>
+                        <div class="input-group">
+                            <span class="input-group-text">@</span>
+                            <input id="Email" type="text" class="form-control" placeholder="Jsmith@company.com" style="border-radius: .25rem;" required>
+                            <div class="invalid-feedback">Valid email address is required.</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="days-a-week-shopping" class="form-label">How often do you go grocery shopping?</label>
+                        <select id="days-a-week-shopping" class="form-control">
+                            <option value="">Please select an option...</option>
+                            <option value="">Less than once a week</option>
+                            <option value="">1</option>
+                            <option value="">2</option>
+                            <option value="">3</option>
+                            <option value="">4</option>
+                            <option value="">5+</option>
+                        </select>
+                        <div class="invalid-feedback">Please select an option</div>
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="amount-household-occupants" class="form-label">How many people do you cook for?</label>
+                        <select id="amount-household-occupants" class="form-control">
+                            <option value="">Please select an option...</option>
+                            <option value="1">Just me</option>
+                            <option value="2">2 but they eat like 5 people</option>
+                            <option value="3">3 or so...</option>
+                            <option value="4">4 but they hardly ever eat anything</option>
+                            <option value="5">A whole battalion and their dog</option>
+                        </select>
+                        <div class="invalid-feedback">Please select an option</div>
+                    </div>
+                </div>                
+                <hr class="my-10">
+                <div class="col-12">
+                    <div class="form-check">
+                        <input id="agree-to-privacy-policy" type="checkbox" class="form-check-input" checked>
+                        <label for="agree-to-privacy-policy" class="form-check-label">
+                            <p>
+                                Do you agree to our terms of service and privacy policy?
+                                TL;DR - you agree to us collecting all of your information 
+                                (not even a joke, just wait till I know how to add trackers to websites, 
+                                and facebook would seem like a privacy focussed company compared to me, 
+                                I will make sure you're never alone again😘).
+                            </p>
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input id="agree-to-privacy-policy" type="checkbox" class="form-check-input" checked>
+                        <label for="agree-to-privacy-policy" class="form-check-label">
+                            <p>
+                                Subscribe to newsletter (basically: do you want spam?), BTW, notice how both of
+                                this checkboxes are checked by default, this is no coincidence.
+                            </p>
+                        </label>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary btn-lg btn-block">Submit form</button>
+                
+                <hr>
+
+            </form>
+        </div>
+    </main>
+      
+    <footer>
+        <div class="footer">
+            <p>made with tons of <a href="https://www.linkedin.com/in/daniel-agudelo-ramirez/" target="_blank">☕️</a></p> 
+        </div>
+    </footer>
+
+    
+    <script src="../assets/js/jquery-3.3.1.slim.min.js"></script>
+    <script src="../assets/js/popper.min.js"></script>
+    <script src="../assets/js/bootstrap.min.js"></script>
+  </body>
+</html>
