@@ -22,6 +22,6 @@ def index():
 def orders():
     return render_template("/orders.html")
 
-@app.route("/login", methods=["GET", "POST"])
+@app.route("/login", methods=["GET", "POST"]
 def login():
     return render_template("/login.html")
