@@ -2,8 +2,12 @@ argon2-cffi==21.1.0
 cffi==1.14.6
 click==8.0.1
 Flask==2.0.1
+Flask-SQLAlchemy==2.5.1
+greenlet==1.1.1
 itsdangerous==2.0.1
 Jinja2==3.0.1
 MarkupSafe==2.0.1
+mysqlclient==2.0.3
 pycparser==2.20
+SQLAlchemy==1.4.25
 Werkzeug==2.0.1

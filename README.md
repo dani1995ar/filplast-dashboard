@@ -22,3 +22,10 @@ Ok, so, after fiddling around with the staff implementation of finance, I realiz
 
 12:16AM of the 26th, I came across Auth0 and a 3 hour video from Ben Awad on how to implement JWT authentication I will rest now and watch it tomorrow.
 
+28/09/2021:
+
+For the past 3 hours I have been setting the DB up, the MERD I previously had was wrong, so I updated it and fixed all the issues I had trying to create the db. After finally getting the database up and running, I was able to load some testing data into one of the tables and succesfully got it communicating with the front-end with the use of sqlalchemy and flask-sqlalchemy, it took me a while to figure it out but I think I learned the very very basics about ORMs. I also spent some time organizing the way I am approaching this, and decided that for my first delivery, I'm going to focuss solely in the login page as well as orders.html, and will try to have this done by end of next week. With some dummy data properly displayed in the screen and the total being displayed in the orders table as well.
+
+30/08/2021:
+
+Another day, another 2 versions of the database. I consulted with someone with more experience than me on the topic and after a few modifications I think I have finally managed to get the correct architecture for the database, and this time is for real (hopefully). I could not spend much time coding, instead I studied a while, mainly trying to figure out how to get the aforementioned architecture correctly.
