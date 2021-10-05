@@ -1,6 +1,8 @@
+from re import A
 from argon2 import PasswordHasher
 from flask import Flask, flash, redirect, render_template, request
 from tempfile import mkdtemp
+from sqlalchemy.orm import session
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from helpers import cop, apology
 from flask_sqlalchemy import SQLAlchemy
@@ -13,13 +15,19 @@ app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "mysql://root:@localhost:3306/filplast"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
+order_table = db.Table("order", db.metadata, autoload=True, autoload_with=db.engine)
+person_table = db.Table("person", db.metadata, autoload=True, autoload_with=db.engine)
+product_table = db.Table("product", db.metadata, autoload=True, autoload_with=db.engine)
+order_item_table = db.Table("order_item", db.metadata, autoload=True, autoload_with=db.engine)
+
 
 # define Order class
-class Order :
-    def __init__(self, order_id, customer_name, product_id, amount_purchased):
-        order_number = order_id
-        full_name = customer_name
-        item = {product_id: amount_purchased}
+class Order:
+    def __init__(self, order_id, customer_name, product_name, amount_purchased):
+        self.order_number = order_id
+        self.full_name = customer_name
+        self.product_name = product_name
+        self.amount_purchased = amount_purchased
 
 @app.route("/")
 def index():
@@ -27,11 +35,21 @@ def index():
 
 @app.route("/orders", methods=["GET", "POST"])
 def orders():
-    Base = automap_base()
-    Base.prepare(db.engine, reflect=True)
-    Order = Base.classes.order
-    orders = db.session.query(Order).all()
-    return render_template("/orders.html", orders=order)
+    orders = []
+    for x in range(1, 100):
+        ph_order = db.session.query(order_table).filter_by(id=x).first()
+        ph_customer = db.session.query(person_table).filter_by(id=ph_order.id).first()
+        ph_order_item = db.session.query(order_item_table).filter_by(order_id=ph_order.id).first()
+        ph_product_name = db.session.query(product_table).filter_by(id=ph_order_item.product_id).first()
+        orders.append(
+            Order(
+                ph_order.id,
+                ph_customer.full_name,
+                ph_product_name.product_name,
+                ph_order_item.quantity
+            )
+        )
+    return render_template("/orders.html", orders=orders)
 
 
 @app.route("/login", methods=["GET", "POST"])

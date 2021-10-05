@@ -29,3 +29,7 @@ For the past 3 hours I have been setting the DB up, the MERD I previously had wa
 30/08/2021:
 
 Another day, another 2 versions of the database. I consulted with someone with more experience than me on the topic and after a few modifications I think I have finally managed to get the correct architecture for the database, and this time is for real (hopefully). I could not spend much time coding, instead I studied a while, mainly trying to figure out how to get the aforementioned architecture correctly.
+
+04/10/2021:
+
+After reading on the weekend about SQLalchemy(and failling to realize I was using FLASK-SQLAlchemy), and struggling to understand how to properly formulate advanced queries, today, I finally managed to formulate the queries that were necessary in order to complete the orders.html page. It took me the whole day to properly formulate 4 queries, and to pass them a Order class that I had described previously as the object that the orders.html page will receive to read from. After testing IT SEEMS like it's working ok, but I definitely need to test further. I am happy with the results, and even though the road ahead is long, I now feel confident that I will be able to face the many challenges that will arise.
