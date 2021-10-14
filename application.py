@@ -7,6 +7,7 @@ from werkzeug.exceptions import default_exceptions, HTTPException, InternalServe
 from helpers import cop, apology
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.ext.automap import automap_base
+import timeit
 
 # Configure application
 app = Flask(__name__)
@@ -23,11 +24,12 @@ order_item_table = db.Table("order_item", db.metadata, autoload=True, autoload_w
 
 # define Order class
 class Order:
-    def __init__(self, order_id, customer_name, product_name, amount_purchased):
+    def __init__(self, order_id, customer_name, product_name, amount_purchased, product_price):
         self.order_number = order_id
         self.full_name = customer_name
         self.product_name = product_name
         self.amount_purchased = amount_purchased
+        self.product_price = product_price
 
 @app.route("/")
 def index():
@@ -35,20 +37,13 @@ def index():
 
 @app.route("/orders", methods=["GET", "POST"])
 def orders():
-    orders = []
-    for x in range(1, 100):
-        ph_order = db.session.query(order_table).filter_by(id=x).first()
-        ph_customer = db.session.query(person_table).filter_by(id=ph_order.id).first()
-        ph_order_item = db.session.query(order_item_table).filter_by(order_id=ph_order.id).first()
-        ph_product_name = db.session.query(product_table).filter_by(id=ph_order_item.product_id).first()
-        orders.append(
-            Order(
-                ph_order.id,
-                ph_customer.full_name,
-                ph_product_name.product_name,
-                ph_order_item.quantity
-            )
-        )
+    orders = [Order(
+        db.session.query(order_table.c.id).order_by(order_table.c.id.desc()).limit(100).all(),
+        db.session.query(person_table.c.full_name).join(order_table).order_by(person_table.c.id.desc()).limit(100).all(),
+        db.session.query(product_table.c.product_name).join(order_item_table).order_by(order_item_table.c.order_id.desc()).limit(100).all(),
+        db.session.query(order_item_table.c.quantity).join(order_table).order_by(order_item_table.c.order_id.desc()).limit(100).all(),
+        1
+    )]
     return render_template("/orders.html", orders=orders)
 
 
