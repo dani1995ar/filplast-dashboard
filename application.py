@@ -1,55 +1,89 @@
-from re import A
 from argon2 import PasswordHasher
 from flask import Flask, flash, redirect, render_template, request
-from tempfile import mkdtemp
-from sqlalchemy.orm import session
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
-from helpers import cop, apology
+from helpers import cop, apology, calculate_grand_total
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.ext.automap import automap_base
-import timeit
+from sqlalchemy import text
 
 # Configure application
 app = Flask(__name__)
+app.jinja_env.filters["cop"] = cop
 
 # configure SQLAlchemy for the database
 app.config["SQLALCHEMY_DATABASE_URI"] = "mysql://root:@localhost:3306/filplast"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
-order_table = db.Table("order", db.metadata, autoload=True, autoload_with=db.engine)
-person_table = db.Table("person", db.metadata, autoload=True, autoload_with=db.engine)
-product_table = db.Table("product", db.metadata, autoload=True, autoload_with=db.engine)
-order_item_table = db.Table("order_item", db.metadata, autoload=True, autoload_with=db.engine)
 
-
-# define Order class
-class Order:
-    def __init__(self, order_id, customer_name, product_name, amount_purchased, product_price):
-        self.order_number = order_id
-        self.full_name = customer_name
-        self.product_name = product_name
-        self.amount_purchased = amount_purchased
-        self.product_price = product_price
 
 @app.route("/")
 def index():
-    return render_template("/layout.html")
+    return redirect("/orders")
 
-@app.route("/orders", methods=["GET", "POST"])
+@app.route("/create-orders")
+def create_orders():
+    return render_template("create-orders.html")
+
+@app.route("/search", methods=["GET", "POST"])
+def search():
+
+    template = "search.html"
+
+    def name_search(name):
+        query = text(
+        """SELECT o.id, p.full_name, pr.name, oi.quantity, cp.price FROM `order` AS o
+        INNER JOIN person AS p ON o.person_id = p.id
+        JOIN order_item AS oi ON oi.order_id = o.id
+        JOIN product AS pr ON  pr.id = oi.product_id
+        JOIN cost_price AS cp ON cp.product_id = pr.id
+        WHERE p.full_name LIKE :pn""")
+        
+        # Person_name is the searched item, with SQL placeholders
+        person_name = {"pn": "%" + name + "%"}
+        orders = db.session.connection().execute(query, person_name).all()
+        return orders
+
+    # Search for name usign search bar
+    if request.method == "POST":
+        orders = name_search(request.form.get("search"))
+        print (orders)
+        return render_template(template, orders=orders, grand_total=calculate_grand_total(orders))
+
+    # Search for order id usgin <a> in orders number in orders template
+    if request.args.get("type") == "order-id":
+        query = text(
+        """SELECT o.id, p.full_name, pr.name, oi.quantity, cp.price FROM `order` AS o
+        INNER JOIN person AS p ON o.person_id = p.id
+        JOIN order_item AS oi ON oi.order_id = o.id
+        JOIN product AS pr ON  pr.id = oi.product_id
+        JOIN cost_price AS cp ON cp.product_id = pr.id
+        WHERE o.id = :order_id;""")
+        order_id = request.args.get("q")
+        orders = db.session.connection().execute(query, order_id=order_id).all()
+        return render_template(template, orders=orders, grand_total=calculate_grand_total(orders))
+
+    # Client/person full name search usign <a> from orders template
+    elif request.args.get("type") == "full-name":
+        orders = name_search(request.args.get("q"))
+        return render_template(template, orders=orders, grand_total=calculate_grand_total(orders))
+    
+    return apology("algosaliomal")
+
+@app.route("/orders")
 def orders():
-    orders = [Order(
-        db.session.query(order_table.c.id).order_by(order_table.c.id.desc()).limit(100).all(),
-        db.session.query(person_table.c.full_name).join(order_table).order_by(person_table.c.id.desc()).limit(100).all(),
-        db.session.query(product_table.c.product_name).join(order_item_table).order_by(order_item_table.c.order_id.desc()).limit(100).all(),
-        db.session.query(order_item_table.c.quantity).join(order_table).order_by(order_item_table.c.order_id.desc()).limit(100).all(),
-        1
-    )]
-    return render_template("/orders.html", orders=orders)
+    query = """\
+    SELECT o.id, p.full_name, pr.name, oi.quantity, cp.price FROM `order` AS o
+    INNER JOIN person AS p ON o.person_id = p.id
+    JOIN order_item AS oi ON oi.order_id = o.id
+    JOIN product AS pr ON  pr.id = oi.product_id
+    JOIN cost_price AS cp ON cp.product_id = pr.id
+    ORDER BY o.id DESC LIMIT 100;"""
+    orders = db.session.connection().execute(query).all()
+    return render_template("orders.html", orders=orders)
 
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    return render_template("/login.html")
+    return apology("TODO")
 
 
 def errorhandler(e):

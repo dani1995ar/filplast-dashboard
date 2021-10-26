@@ -1,4 +1,4 @@
-from flask import redirect, render_template, request, session
+from flask import redirect, render_template, session
 from functools import wraps
 
 
@@ -33,4 +33,10 @@ def login_required(f):
 
 def cop(value):
     """Format value as COP."""
-    return f"${value}"
+    return f"${value: ,}"
+
+def calculate_grand_total(orders):
+    grand_total = 0
+    for order in orders:
+            grand_total += (order.price * order.quantity)
+    return(grand_total)
