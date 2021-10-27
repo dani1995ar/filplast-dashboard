@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Search
+{% endblock %}
+{% block main %}
+<form action="/create-order" method="post">
+  <section class="create-order-body">
+    <div class="card">
+      <h2>New Order</h2>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="full-name">Customer full name</label>
+            <input type="text" placeholder="full name" name="full-name">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="product-name">Select product name:</label>
+            <select name="product-name" id="product-name">
+              <option value="PLA-Azul">PLA Azul</option>
+              <option value="ABS-Morado">ABS Morado</option>
+              <option value="PLA-Plateado">PLA Plateado</option>
+              <option value="PLA-Negro">PLA Negro</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="form-group">
+            <label for="quantity">Amount of product</label>
+            <input type="number" placeholder="quantity" name="quantity">
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="form-group">
+            <textarea rows="3" placeholder="Order Notes" name="notes"></textarea>
+          </div>
+        </div>
+
+        <div class="col">
+          <input type="submit" value="Submit">
+        </div>
+      </div>
+    </div>
+</form>
+</section>
+
+
+{% endblock %}

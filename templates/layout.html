@@ -39,7 +39,7 @@
                                 Orders
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="./create-orders">Create</a>
+                                <a class="dropdown-item" href="/create-order">Create</a>
                                 <a class="dropdown-item" href="/orders">view</a>
                                 </div>
                             </li>
@@ -48,8 +48,8 @@
                                 Products
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="./create/create-products">Create</a>
-                                <a class="dropdown-item" href="./view/view-products">view</a>
+                                <a class="dropdown-item" href="/create/create-products">Create</a>
+                                <a class="dropdown-item" href="/view/view-products">view</a>
                                 </div>
                             </li>
                             <li class="nav-item dropdown">
@@ -57,8 +57,8 @@
                                 Companies
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="./create/create-companies">Create</a>
-                                <a class="dropdown-item" href="./view/view-companies">view</a>
+                                <a class="dropdown-item" href="/create/create-companies">Create</a>
+                                <a class="dropdown-item" href="/view/view-companies">view</a>
                             </div>
                             </li>
                             <li class="nav-item dropdown">
@@ -66,14 +66,14 @@
                                 People
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="./create/create-people">Create</a>
-                                <a class="dropdown-item" href="./view/view-people">view</a>
+                                <a class="dropdown-item" href="/create/create-people">Create</a>
+                                <a class="dropdown-item" href="/view/view-people">view</a>
                                 </div>
                             </li>
                         </ul>
 
                         <form class="form-inline my-2 my-md-0" action="/search" autocomplete="off" method="post">
-                        <input class="form-control" type="text" placeholder="Search" aria-label="Search" name="search">
+                            <input class="form-control" type="text" placeholder="Search" aria-label="Search" name="search">
                         </form>
       
 
@@ -81,7 +81,7 @@
             </nav>
         </div>
 
-        <main role="main" class="flex-shrink-0">            
+        <main role="main">            
             {% block main %}{% endblock %}
         </main>
 

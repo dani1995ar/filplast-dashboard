@@ -1,3 +1,4 @@
+from operator import length_hint
 from argon2 import PasswordHasher
 from flask import Flask, flash, redirect, render_template, request
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
@@ -19,14 +20,20 @@ db = SQLAlchemy(app)
 def index():
     return redirect("/orders")
 
-@app.route("/create-orders")
+@app.route("/create-order", methods=["GET", "POST"])
 def create_orders():
-    return render_template("create-orders.html")
+    if request.method == "GET":
+        return render_template("create-order.html")
+    elif request.method == "POST":
+        print(request.form)
+        return redirect("/")
+    return apology("something went wrong")
 
 @app.route("/search", methods=["GET", "POST"])
 def search():
 
     template = "search.html"
+
 
     def name_search(name):
         query = text(
@@ -42,10 +49,12 @@ def search():
         orders = db.session.connection().execute(query, person_name).all()
         return orders
 
+
     # Search for name usign search bar
     if request.method == "POST":
         orders = name_search(request.form.get("search"))
-        print (orders)
+        if len(orders) < 1:
+            return apology("No one found")
         return render_template(template, orders=orders, grand_total=calculate_grand_total(orders))
 
     # Search for order id usgin <a> in orders number in orders template
@@ -66,7 +75,7 @@ def search():
         orders = name_search(request.args.get("q"))
         return render_template(template, orders=orders, grand_total=calculate_grand_total(orders))
     
-    return apology("algosaliomal")
+    return apology("There was a problem")
 
 @app.route("/orders")
 def orders():
