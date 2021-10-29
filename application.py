@@ -1,6 +1,6 @@
 from operator import length_hint
 from argon2 import PasswordHasher
-from flask import Flask, flash, redirect, render_template, request
+from flask import Flask, flash, redirect, render_template, request, jsonify
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from helpers import cop, apology, calculate_grand_total
 from flask_sqlalchemy import SQLAlchemy
@@ -20,14 +20,34 @@ db = SQLAlchemy(app)
 def index():
     return redirect("/orders")
 
+
+@app.route("/create-order-search", methods=["GET", "POST"])
+def create_order_search():
+
+    print(request.form['full-name'])
+    # a Query to search for that name in the current database
+    query = text(
+    """SELECT full_name FROM person
+    WHERE full_name LIKE :pn""")
+
+
+    person_name = {"pn": "%" + request.args.get("fullName") + "%"}
+    print(person_name)
+    suggestion = db.session.connection().execute(query, person_name).all()
+    print(suggestion)
+    return jsonify(data=suggestion)
+
+
+
 @app.route("/create-order", methods=["GET", "POST"])
 def create_orders():
     if request.method == "GET":
         return render_template("create-order.html")
+
     elif request.method == "POST":
-        print(request.form)
         return redirect("/")
     return apology("something went wrong")
+
 
 @app.route("/search", methods=["GET", "POST"])
 def search():
@@ -50,7 +70,7 @@ def search():
         return orders
 
 
-    # Search for name usign search bar
+    # Search for name using search bar
     if request.method == "POST":
         orders = name_search(request.form.get("search"))
         if len(orders) < 1:
