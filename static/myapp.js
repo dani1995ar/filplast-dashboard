@@ -1,10 +1,13 @@
-$(function() {
-    $('input#create-order-full-name').keyup(function() {
-      $.getJSON('/create-order-search', {
-        fullName : $('#create-order-full-name').val()
-      }, function(data) {
-        $('#full-name-suggestion').text(data.fullName);
-      });
-      return false;
+window.onload = function() {
+  let input = document.getElementById('full-name');
+  input.addEventListener('keyup', function() {
+    $.get('/search?type=suggestion&q=' + input.value, function(suggestion) {
+      let html = '';
+      for (any in suggestion) {
+        let name = suggestion[any];
+        html += '<li>' + name + '</li>'; 
+      }
+      document.getElementById('full-name-suggestion').innerHTML = '<ul>' + html + '</ul>';
     });
   });
+};

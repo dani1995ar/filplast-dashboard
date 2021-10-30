@@ -20,27 +20,9 @@ db = SQLAlchemy(app)
 def index():
     return redirect("/orders")
 
-
-@app.route("/create-order-search", methods=["GET", "POST"])
-def create_order_search():
-
-    print(request.form['full-name'])
-    # a Query to search for that name in the current database
-    query = text(
-    """SELECT full_name FROM person
-    WHERE full_name LIKE :pn""")
-
-
-    person_name = {"pn": "%" + request.args.get("fullName") + "%"}
-    print(person_name)
-    suggestion = db.session.connection().execute(query, person_name).all()
-    print(suggestion)
-    return jsonify(data=suggestion)
-
-
-
 @app.route("/create-order", methods=["GET", "POST"])
 def create_orders():
+
     if request.method == "GET":
         return render_template("create-order.html")
 
@@ -51,9 +33,9 @@ def create_orders():
 
 @app.route("/search", methods=["GET", "POST"])
 def search():
-
+    
     template = "search.html"
-
+    search_type = request.args.get("type")
 
     def name_search(name):
         query = text(
@@ -69,7 +51,18 @@ def search():
         orders = db.session.connection().execute(query, person_name).all()
         return orders
 
+    
+    def name_suggestion(partial_name):
+        query = text(
+        """SELECT full_name FROM person
+        WHERE full_name LIKE :pn""")
 
+        # partial_name is the data typed so far in the input field
+        name = {"pn": "%" + partial_name + "%"}
+        suggestion = db.session.connection().execute(query, name).all()
+        return suggestion
+
+        
     # Search for name using search bar
     if request.method == "POST":
         orders = name_search(request.form.get("search"))
@@ -78,7 +71,7 @@ def search():
         return render_template(template, orders=orders, grand_total=calculate_grand_total(orders))
 
     # Search for order id usgin <a> in orders number in orders template
-    if request.args.get("type") == "order-id":
+    if search_type == "order-id":
         query = text(
         """SELECT o.id, p.full_name, pr.name, oi.quantity, cp.price FROM `order` AS o
         INNER JOIN person AS p ON o.person_id = p.id
@@ -91,9 +84,20 @@ def search():
         return render_template(template, orders=orders, grand_total=calculate_grand_total(orders))
 
     # Client/person full name search usign <a> from orders template
-    elif request.args.get("type") == "full-name":
+    elif search_type == "full-name":
         orders = name_search(request.args.get("q"))
         return render_template(template, orders=orders, grand_total=calculate_grand_total(orders))
+
+    elif search_type == "suggestion":
+        q = request.args.get("q")
+        if q:
+            name_list = name_suggestion(q)
+            json = []
+            for name in name_list:
+                json.append(name.full_name)
+            return jsonify(json)
+            
+        return jsonify([])
     
     return apology("There was a problem")
 
