@@ -24,7 +24,9 @@ def index():
 def create_orders():
 
     if request.method == "GET":
-        return render_template("create-order.html")
+        query = text("SELECT id, name FROM product")
+        products = db.session.connection().execute(query).all()
+        return render_template("create-order.html", products=products)
 
     elif request.method == "POST":
         return redirect("/")

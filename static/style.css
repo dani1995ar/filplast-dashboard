@@ -1,5 +1,4 @@
-main .form-control
-{
+main .form-control {
     /* Center form controls */
     display: inline-block;
 
@@ -7,13 +6,12 @@ main .form-control
     width: auto;
 }
 
-main
-{
-    /* Scroll horizontally as needed */
-    overflow-x: auto;
+main {
+  /* Scroll horizontally as needed */
+  overflow-x: auto;
 
-    /* Center contents */
-    text-align: center;
+  /* Center contents */
+  text-align: center;
 }
 
 .footer {
@@ -59,13 +57,16 @@ textarea {
 }
 
 .create-order-body {
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
+  text-align: initial;
+  height: max-content;
 }
 
 .card {
-  width: 50%;
+  width: 40%;
   padding: 30px 90px 90px 90px;
   background-color: rgba(0, 0, 0, 0.25);
   backdrop-filter: blur(20px);
@@ -144,7 +145,6 @@ textarea {
 }
 
 .card .row .form-group label {
-  line-height: 40px;
   color: #ffffff;
   font-size: 24px;
   margin: 0 0 0 30px;
@@ -162,18 +162,16 @@ textarea {
   backdrop-filter: blur(30px);
   background-color: rgba(255, 255, 255, 0.10);
   box-shadow: 0 20px 30px rgba(0, 0, 0, 0.2);
-  padding: 10px;
   height: 100%;
   width: 50%;
   cursor: pointer;
-  border: none;
+  margin: 2vw 5vw;
   outline: none;
   text-transform: uppercase;
   color: #ffffff;
-  line-height: 40px;
   font-size: 18px;
   font-weight: 700;
-  border-radius: 5px;
+  border-radius: 10px;
   transition: all 0.4s;
 }
 
@@ -188,7 +186,19 @@ textarea {
   }
   
   .card {
-    padding: 20px;
+    padding: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 80px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(0, 0, 0, 0.50);
+    border-radius: 15px;
+    z-index: 2;
+    align-items: center;
+  }
+
+  .card .row input[type="submit"] {
+    margin: 5vw 15vw;  
   }
   
   .card h2 {
@@ -196,11 +206,8 @@ textarea {
     font-size: 34px;
   }
   
-  .card .row .col:nth-child(5n) {
-    margin-bottom: 100px;
-  }
-  
-  .card .row input[type="submit"] {
-    width: 100%;
-  }
+}
+
+.create-order-form {
+  text-align: left !important;
 }

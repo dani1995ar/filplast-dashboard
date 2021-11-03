@@ -4,54 +4,51 @@
     Search
 {% endblock %}
 {% block main %}
-<form action="/create-order" method="post">
-  <section class="create-order-body">
-    <div class="card">
-      <h2>New Order</h2>
-      <div class="row">
-        <div class="col">
-          <div class="form-group">
-            <label for="full-name">Customer full name:</label>
-            <input type="text" placeholder="full name" name="full-name" id="full-name" autocomplete="off">
-            <div id="full-name-suggestion">
+<form action="/create-order" method="post" autocomplete="off" class="create-order-form">
+    <section class="create-order-body">
+        <div class="card">
+          <h2>New Order</h2>
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <label for="full-name">Customer full name:</label>
+                <input type="text" placeholder="full name" name="full-name" id="full-name" autocomplete="off">
+                <div id="full-name-suggestion">
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group">
+                <label for="product-name">Select product name:</label>
+                <select name="product-name" id="product-name">
+                  <option value="" disabled selected>Select product...</option>
+                  {% for product in products %}
+                    <option value="{{ product.id }}">{{ product.name }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+    
+            <div class="col">
+              <div class="form-group">
+                <label for="quantity">Amount of product:</label>
+                <input type="number" placeholder="quantity" name="quantity" min="1">
+              </div>
+            </div>
+    
+            <div class="col">
+              <div class="form-group">
+                <label for="notes">Notes:</label>
+                <textarea rows="3" placeholder="Order Notes" name="notes"></textarea>
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group">
+                <input type="submit" value="Submit">
+              </div>
             </div>
           </div>
         </div>
-        <div class="col">
-          <div class="form-group">
-            <label for="product-name">Select product name:</label>
-            <select name="product-name" id="product-name">
-              <option value="PLA-Azul">PLA Azul</option>
-              <option value="ABS-Morado">ABS Morado</option>
-              <option value="PLA-Plateado">PLA Plateado</option>
-              <option value="ABS-Negro">ABS NAZB</option>
-              <option value="ABS-Negro">ABS NAZBA</option>
-              <option value="ABS-Negro">ABS NAZBAS</option>
-              <option value="ABS-Negro">ABS NAZ</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="col">
-          <div class="form-group">
-            <label for="quantity">Amount of product:</label>
-            <input type="number" placeholder="quantity" name="quantity">
-          </div>
-        </div>
-
-        <div class="col">
-          <div class="form-group">
-            <label for="notes">Notes:</label>
-            <textarea rows="3" placeholder="Order Notes" name="notes"></textarea>
-          </div>
-        </div>
-        <div class="col">
-          <div class="form-group">
-            <input type="submit" value="Submit">
-          </div>
-        </div>
-      </div>
-    </div>
 </form>
 </section>
 
