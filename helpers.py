@@ -36,7 +36,11 @@ def cop(value):
     return f"${value: ,}"
 
 
-
+# Converts the results from the input into a dictionary of dicts, 
+# with the following format:
+# {order id:{'note': 'order notes', 'customer_name': 'John Smith', [{'product name': 
+# {'quantity': amount of the product ordered, 'price': **int**, 'total': **int**}, 'total': **int**}}}
+# refer to data_structure.txt for an example of this.
 def result_to_dicts(result):
     orders = {}
     for item in result:
@@ -46,14 +50,20 @@ def result_to_dicts(result):
         orders[item.id]['customer_name'] = item.full_name
         if not orders[item.id].get('order_items'):
             orders[item.id]['order_items'] = []
+
+       # Create a list, of  order items, to keep track of each
+       # Of the items the order contains, and their properties
         orders[item.id]['order_items'].append(
             {'item_name': item.name,
             'price': item.price,
             'quantity': item.quantity,
             'total': (item.price * item.quantity)})
+
+        # If no key exist for the total of the ORDER, create one
         if not orders[item.id].get('total'):
             orders[item.id]['total'] = 0
-        for order_item in orders[item.id]['order_items']:
-            orders[item.id]['total'] +=  order_item['total']
-    print(orders)
+        
+        # This keeps track of the order total, adding each order item's total
+        # Works by adding the total of the last item added to "order_items"
+        orders[item.id]['total'] +=  orders[item.id]['order_items'][-1]['total']
     return(orders)

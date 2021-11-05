@@ -1,0 +1,7 @@
+{88: {'note': 'note', 'customer_name': 'Mona Hintz', 'order_items': [{'item_name': ' tpu morado',
+                                                                        'price': 50000,
+                                                                        'quantity': 6235,
+                                                                        'total': 311750000}],
+                                                                        'total': 311750000
+    }
+}

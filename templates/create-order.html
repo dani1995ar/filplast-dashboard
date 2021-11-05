@@ -12,13 +12,13 @@
             <div class="col">
               <div class="form-group">
                   <label for="full-name">Customer full name:</label>
-                  <input type="text" placeholder="full name" name="full-name" id="full-name" autocomplete="off">
+                  <input type="text" placeholder="full name" name="full-name" id="full-name" autocomplete="off" required>
               </div>
             </div>
             <div class="col">
               <div class="form-group">
-                <label for="product-name">Select product name:</label>
-                <select name="product-name" id="product-name">
+                <label for="product-id">Select product name:</label>
+                <select name="product-id" id="product-id" required>
                   <option value="" disabled selected>Select product...</option>
                   {% for product in products %}
                     <option value="{{ product.id }}">{{ product.name }}</option>
@@ -30,7 +30,7 @@
             <div class="col">
               <div class="form-group">
                 <label for="quantity">Amount of product:</label>
-                <input type="number" placeholder="quantity" name="quantity" min="1">
+                <input type="number" placeholder="quantity" name="quantity" min="1" required>
               </div>
             </div>
     

@@ -29,6 +29,7 @@ def create_orders():
         return render_template("create-order.html", products=products)
 
     elif request.method == "POST":
+        print(request.form)
         return redirect("/")
     return apology("something went wrong")
 
@@ -39,7 +40,7 @@ def search():
     template = "search.html"
     search_type = request.args.get("type")
 
-    def name_search(name):
+    def get_orders_by_customer_name(name):
         query = text(
         """SELECT o.note, o.id, p.full_name, pr.name, oi.quantity, cp.price FROM `order` AS o
         INNER JOIN person AS p ON o.person_id = p.id
@@ -69,7 +70,7 @@ def search():
         
     # Search for name using search bar
     if request.method == "POST":
-        orders = name_search(request.form.get("search"))
+        orders = get_orders_by_customer_name(request.form.get("search"))
         if len(orders) < 1:
             return apology("No one found")
         return render_template(template, orders=orders)
@@ -91,7 +92,7 @@ def search():
 
     # Client/person full name search usign <a> from orders template
     elif search_type == "full-name":
-        orders = name_search(request.args.get("q"))
+        orders = get_orders_by_customer_name(request.args.get("q"))
         return render_template(template, orders=orders)
 
     # Name suggestion for create order input field "full-name"
