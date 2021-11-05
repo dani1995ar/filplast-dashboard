@@ -1,0 +1,35 @@
+{1: {'note': 'test', 'customer_name': 'pepito perez', ' tpu morado': {'quantity': 27430, 'price': 50000, 'total': 1371500000}},
+102: {'note': 'test', 'customer_name': 'pepito perez', ' abs azul': {'quantity': 1, 'price': 35000, 'total': 35000}},
+103: {'note': 'test', 'customer_name': 'pepito perez', ' pla negro': {
+        'quantity': 8,
+        'price': 0,
+        'total': 0},
+    ' abs azul': {
+        'quantity': 3,
+        'price': 35000,
+        'total': 105000},
+    'pla blanco': {
+        'quantity': 4,
+        'price': 44000,
+        'total': 176000
+        }
+    }
+}
+
+{1: {'note': 'test', 'customer_name': 'pepito perez', [{' tpu morado': {'quantity': 27430, 'price': 50000, 'total': 1371500000}, 'total': 1371500000},
+102: {'note': 'test', 'customer_name': 'pepito perez', ' abs azul': {'quantity': 1, 'price': 35000, 'total': 35000}, 'total': 35000},
+103: {'note': 'test', 'customer_name': 'pepito perez', ' pla negro': {
+        'quantity': 8,
+        'price': 0,
+        'total': 0},
+    'total': 281000,
+    ' abs azul': {
+        'quantity': 3,
+        'price': 35000,
+        'total': 105000},
+        'pla blanco': {'
+        quantity': 4,
+        'price': 44000,
+        'total': 176000}
+    }
+}

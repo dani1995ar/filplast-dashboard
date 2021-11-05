@@ -35,8 +35,25 @@ def cop(value):
     """Format value as COP."""
     return f"${value: ,}"
 
-def calculate_grand_total(orders):
-    grand_total = 0
-    for order in orders:
-            grand_total += (order.price * order.quantity)
-    return(grand_total)
+
+
+def result_to_dicts(result):
+    orders = {}
+    for item in result:
+        if not orders.get(item.id):
+            orders[item.id] = {}
+        orders[item.id]['note'] = item.note
+        orders[item.id]['customer_name'] = item.full_name
+        if not orders[item.id].get('order_items'):
+            orders[item.id]['order_items'] = []
+        orders[item.id]['order_items'].append(
+            {'item_name': item.name,
+            'price': item.price,
+            'quantity': item.quantity,
+            'total': (item.price * item.quantity)})
+        if not orders[item.id].get('total'):
+            orders[item.id]['total'] = 0
+        for order_item in orders[item.id]['order_items']:
+            orders[item.id]['total'] +=  order_item['total']
+    print(orders)
+    return(orders)

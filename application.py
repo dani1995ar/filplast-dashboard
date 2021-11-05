@@ -2,7 +2,7 @@ from operator import length_hint
 from argon2 import PasswordHasher
 from flask import Flask, flash, redirect, render_template, request, jsonify
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
-from helpers import cop, apology, calculate_grand_total
+from helpers import cop, apology, result_to_dicts
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
 
@@ -41,7 +41,7 @@ def search():
 
     def name_search(name):
         query = text(
-        """SELECT o.id, p.full_name, pr.name, oi.quantity, cp.price FROM `order` AS o
+        """SELECT o.note, o.id, p.full_name, pr.name, oi.quantity, cp.price FROM `order` AS o
         INNER JOIN person AS p ON o.person_id = p.id
         JOIN order_item AS oi ON oi.order_id = o.id
         JOIN product AS pr ON  pr.id = oi.product_id
@@ -50,7 +50,9 @@ def search():
         
         # Person_name is the searched item, with SQL placeholders
         person_name = {"pn": "%" + name + "%"}
-        orders = db.session.connection().execute(query, person_name).all()
+        result = db.session.connection().execute(query, person_name).all()
+        print(result)
+        orders = result_to_dicts(result)
         return orders
 
     
@@ -59,7 +61,7 @@ def search():
         """SELECT full_name FROM person
         WHERE full_name LIKE :pn""")
 
-        # partial_name is the data typed so far in the input field
+        # partial_name is the data typed so far in the input field of create order
         name = {"pn": "%" + partial_name + "%"}
         suggestion = db.session.connection().execute(query, name).all()
         return suggestion
@@ -70,26 +72,29 @@ def search():
         orders = name_search(request.form.get("search"))
         if len(orders) < 1:
             return apology("No one found")
-        return render_template(template, orders=orders, grand_total=calculate_grand_total(orders))
+        return render_template(template, orders=orders)
 
     # Search for order id usgin <a> in orders number in orders template
     if search_type == "order-id":
         query = text(
-        """SELECT o.id, p.full_name, pr.name, oi.quantity, cp.price FROM `order` AS o
+        """SELECT o.note, o.id, p.full_name, pr.name, oi.quantity, cp.price FROM `order` AS o
         INNER JOIN person AS p ON o.person_id = p.id
         JOIN order_item AS oi ON oi.order_id = o.id
         JOIN product AS pr ON  pr.id = oi.product_id
         JOIN cost_price AS cp ON cp.product_id = pr.id
         WHERE o.id = :order_id;""")
         order_id = request.args.get("q")
-        orders = db.session.connection().execute(query, order_id=order_id).all()
-        return render_template(template, orders=orders, grand_total=calculate_grand_total(orders))
+        result = db.session.connection().execute(query, order_id=order_id).all()
+        print(result)
+        orders = result_to_dicts(result)
+        return render_template(template, orders=orders)
 
     # Client/person full name search usign <a> from orders template
     elif search_type == "full-name":
         orders = name_search(request.args.get("q"))
-        return render_template(template, orders=orders, grand_total=calculate_grand_total(orders))
+        return render_template(template, orders=orders)
 
+    # Name suggestion for create order input field "full-name"
     elif search_type == "suggestion":
         q = request.args.get("q")
         if q:
@@ -130,3 +135,4 @@ def errorhandler(e):
 # Listen for errors
 for code in default_exceptions:
     app.errorhandler(code)(errorhandler)
+
