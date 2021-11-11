@@ -235,3 +235,40 @@ textarea {
   text-align: left !important;
 }
 
+#addProductAndAmount {
+  position: relative;
+  float: right;
+  right: 0.5rem;
+  background-color: rgba(0, 0, 0, 0.10);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 0 80px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(0, 0, 0, 0.50);
+  border-radius: 15px;
+  box-shadow: 0 5px rgba(153, 153, 153, 0.815);
+  transition: 0ms;
+}
+
+#addProductAndAmount:active {
+  background-color: #252725d2;
+  box-shadow: 0 1px #666;
+  transform: translateY(4px);
+}
+
+#removeProductAndAmount {
+  position: relative;
+  float: right;
+  right: 0.5rem;
+  background-color: rgba(0, 0, 0, 0.10);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 0 80px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(0, 0, 0, 0.50);
+  border-radius: 15px;
+  box-shadow: 0 5px rgba(153, 153, 153, 0.815);
+  transition: 0ms;
+}
+
+#removeProductAndAmount:active {
+  background-color: #252725d2;
+  box-shadow: 0 1px #666;
+  transform: translateY(4px);
+}

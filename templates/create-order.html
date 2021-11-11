@@ -15,22 +15,25 @@
                   <input type="text" placeholder="full name" name="full-name" id="full-name" autocomplete="off" required>
               </div>
             </div>
-            <div class="col">
-              <div class="form-group">
-                <label for="product-id">Select product name:</label>
-                <select name="product-id" id="product-id" required>
-                  <option value="" disabled selected>Select product...</option>
-                  {% for product in products %}
-                    <option value="{{ product.id }}">{{ product.name }}</option>
-                  {% endfor %}
-                </select>
+            <div id="orderItemsInputWrapper">
+              <div class="col">
+                <div class="form-group">
+                  <label for="product-id">Select product name:</label>
+                  <select name="product-id" id="product-id" required>
+                    <option value="" disabled selected>Select product...</option>
+                    {% for product in products %}
+                      <option value="{{ product.id }}">{{ product.name }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
               </div>
-            </div>
-    
-            <div class="col">
-              <div class="form-group">
-                <label for="quantity">Amount of product:</label>
-                <input type="number" placeholder="quantity" name="quantity" min="1" required>
+      
+              <div class="col">
+                <div class="form-group">
+                  <label for="quantity">Amount of product:</label>
+                  <input type="number" placeholder="quantity" name="quantity" min="1" required>
+                  <button type="button" name="addProductAndAmount" id="addProductAndAmount" class="btn btn-success">+</button>
+                </div>
               </div>
             </div>
     
