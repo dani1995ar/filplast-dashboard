@@ -1,6 +1,7 @@
 from operator import length_hint
 from argon2 import PasswordHasher
 from flask import Flask, flash, redirect, render_template, request, jsonify
+from sqlalchemy.sql.expression import false
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from helpers import cop, apology, result_to_dicts
 from flask_sqlalchemy import SQLAlchemy
@@ -23,13 +24,28 @@ def index():
 @app.route("/create-order", methods=["GET", "POST"])
 def create_orders():
 
+    def is_customer_on_db(customer_name):
+        query = text("SELECT full_name FROM person WHERE full_name = :cn")
+        if len(db.session.connection().execute(query, cn=customer_name).all()) == 1:
+            return True
+        return False
+
     if request.method == "GET":
         query = text("SELECT id, name FROM product")
         products = db.session.connection().execute(query).all()
         return render_template("create-order.html", products=products)
 
     elif request.method == "POST":
-        print(request.form)
+        try:
+            if (int(request.form['quantity']) > 0 
+            and is_customer_on_db(request.form['full-name'])):
+                    for input in request.form:
+                        print(request.form)
+                        print(input)
+
+        except ValueError:
+            return apology("Not a possitive int for amount of product")
+
         return redirect("/")
     return apology("something went wrong")
 

@@ -18,26 +18,26 @@ window.onload = function() {
 
   let orderItemsCount = orderItemsWrapper.length; // Amount of order items input div
   let fieldCount = 1; // Track of total added fields
-  let htmlProductAndAmount = 
-  '<div class="moreItemsWrapper">' +
-    '<div class="col">' +
-    '<div class="form-group">' +
-      '<label for="product-id">Select product name:</label>' +
-      '<select name="product-id" id="product-id" required>' +
-        products +
-      '</select>' +
-    '</div>' +
-  '</div>' +
-  '<div class="col">' +
-    '<div class="form-group">' +
-      '<label for="quantity">Amount of product:</label>' +
-      '<input type="number" placeholder="quantity" name="quantity" min="1" required>' +
-      '<button type="button" name="removeProductAndAmount" id="removeProductAndAmount" class="btn btn-success">-</button>' +
-    '</div>' +
-  '</div>' +
-  '</div>';
   $(addItemsButton).click(function(e) {
     if(orderItemsCount <= maxInputs){
+      let htmlProductAndAmount = 
+      '<div class="moreItemsWrapper">' +
+        '<div class="col">' +
+        '<div class="form-group">' +
+          '<label for="product-id">Select product name:</label>' +
+          '<select name="product-id' + fieldCount + '" id="product-id' + fieldCount + '" required>' +
+            products +
+          '</select>' +
+        '</div>' +
+      '</div>' +
+      '<div class="col">' +
+        '<div class="form-group">' +
+          '<label for="quantity">Amount of product:</label>' +
+          '<input type="number" placeholder="quantity" name="quantity' + fieldCount + '" min="1" required>' +
+          '<button type="button" name="removeProductAndAmount" id="removeProductAndAmount" class="btn btn-success">-</button>' +
+        '</div>' +
+      '</div>' +
+      '</div>';
       fieldCount++;
       $(orderItemsWrapper).append(htmlProductAndAmount);
       orderItemsCount++;
