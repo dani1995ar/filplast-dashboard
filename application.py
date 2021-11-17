@@ -3,7 +3,7 @@ from argon2 import PasswordHasher
 from flask import Flask, flash, redirect, render_template, request, jsonify
 from sqlalchemy.sql.expression import false
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
-from helpers import cop, apology, result_to_dicts
+from helpers import cop, apology, result_to_dicts, new_order
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
 
@@ -24,6 +24,10 @@ def index():
 @app.route("/create-order", methods=["GET", "POST"])
 def create_orders():
 
+    # Check if the name of the customer is on the database exactly as
+    # it appears, AND that there is only one item that matches the search
+    # if there are more, the full name is probably incomplete
+    # if there are less the client is not yet in the database.
     def is_customer_on_db(customer_name):
         query = text("SELECT full_name FROM person WHERE full_name = :cn")
         if len(db.session.connection().execute(query, cn=customer_name).all()) == 1:
@@ -36,18 +40,29 @@ def create_orders():
         return render_template("create-order.html", products=products)
 
     elif request.method == "POST":
+
+        # Save the form data, so we don't have to query it multiple times.
+        order_data = request.form
+
         try:
-            if (int(request.form['quantity']) > 0 
-            and is_customer_on_db(request.form['full-name'])):
-                    for input in request.form:
-                        print(request.form)
-                        print(input)
+            if (int(order_data['quantity']) > 0 
+            and is_customer_on_db(order_data['full-name'])):
+
+                # The create order form has 4 inputs by default, if there are more we know that
+                # the order contains more than 1 item.
+                # If there iss only 1 item in the order, then:
+                dict_of_order_data = {}
+                for data in order_data:
+                    dict_of_order_data[data] = order_data[data]
+                dict_of_order_data['total_order_item_price'] = 0
+                dict_of_order_data['amount_of_items'] = 0
+                print(dict_of_order_data)
+                new_order(dict_of_order_data)
+                return redirect("/")
+            return apology("Incorrect name, product or amount")
 
         except ValueError:
             return apology("Not a possitive int for amount of product")
-
-        return redirect("/")
-    return apology("something went wrong")
 
 
 @app.route("/search", methods=["GET", "POST"])
