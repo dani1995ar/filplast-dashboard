@@ -67,32 +67,3 @@ def result_to_dicts(result):
         # Works by adding the total of the last item added to "order_items"
         orders[item.id]['total'] +=  orders[item.id]['order_items'][-1]['total']
     return(orders)
-
-def new_order(dict_of_order_details):
-    additional_items = ''
-    if dict_of_order_details['amount_of_items']:
-        for i in range(dict_of_order_details['amount of items']):
-            additional_items += (
-            """INSERT INTO order_item
-                SET order_id = @last_order_id,
-                product_id = :product_id""" + i + """,
-                total_order_item_price = :total_order_item_price""" + i + """,
-                quantity = :quantity""" + i)
-
-    data_to_insert = text(
-        """INSERT INTO order
-            SET person_id = (
-                SELECT id FROM person
-                WHERE full_name = :full-name),
-                note = :note;
-            SET @last_order_id = LAST_INSERT_ID();
-            INSERT INTO order_item
-            SET order_id = @last_order_id,
-            product_id = :product-id,
-            total_order_item_price = :total_order_item_price,
-            quantity = :quantity""" + additional_items)
-    try:
-        db.session.connection().execute(data_to_insert, dict_of_order_details)
-    except Exception:
-        return apology("error in the data")
-    return True

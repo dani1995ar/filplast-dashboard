@@ -3,7 +3,7 @@ from argon2 import PasswordHasher
 from flask import Flask, flash, redirect, render_template, request, jsonify
 from sqlalchemy.sql.expression import false
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
-from helpers import cop, apology, result_to_dicts, new_order
+from helpers import cop, apology, result_to_dicts
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
 
@@ -15,6 +15,36 @@ app.jinja_env.filters["cop"] = cop
 app.config["SQLALCHEMY_DATABASE_URI"] = "mysql://root:@localhost:3306/filplast"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
+
+
+# New order function, to add new order and items to the DB
+def new_order(dict_of_order_details):
+    additional_items = ''
+    if dict_of_order_details['amount_of_items']:
+        for i in range(dict_of_order_details['amount of items']):
+            additional_items += (
+            """INSERT INTO order_item
+                SET order_id = @last_order_id,
+                product_id = :product_id""" + i + """,
+                total_order_item_price = :total_order_item_price""" + i + """,
+                quantity = :quantity""" + i)
+
+    insert_statement = text(
+        """INSERT INTO order
+            SET person_id = (
+                SELECT id FROM person
+                WHERE full_name = :full-name),
+                note = :note;
+            SET @last_order_id = LAST_INSERT_ID();
+            INSERT INTO order_item
+            SET order_id = @last_order_id,
+            product_id = :product-id,
+            total_order_item_price = :total_order_item_price,
+            quantity = :quantity""" + additional_items)
+
+    db.session.connection().execute(insert_statement, dict_of_order_details)
+    db.session.connection().commit()
+    return True
 
 
 @app.route("/")
