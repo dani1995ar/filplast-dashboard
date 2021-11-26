@@ -11,15 +11,15 @@
           <div class="row">
             <div class="col">
               <div class="form-group">
-                  <label for="full-name">Customer full name:</label>
-                  <input type="text" placeholder="full name" name="full-name" id="full-name" autocomplete="off" required>
+                  <label for="full_name">Customer full name:</label>
+                  <input type="text" placeholder="full name" name="full_name" id="full-name" autocomplete="off" required>
               </div>
             </div>
             <div id="orderItemsInputWrapper">
               <div class="col">
                 <div class="form-group">
                   <label for="product-id">Select product name:</label>
-                  <select name="product-id" id="product-id" required>
+                  <select name="product_id" id="product-id" required>
                     <option value="" disabled selected>Select product...</option>
                     {% for product in products %}
                       <option value="{{ product.id }}">{{ product.name }}</option>

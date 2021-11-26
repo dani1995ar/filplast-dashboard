@@ -20,7 +20,7 @@ db = SQLAlchemy(app)
 # New order function, to add new order and items to the DB
 def new_order(dict_of_order_details):
     additional_items = ''
-    if dict_of_order_details['amount_of_items']:
+    if dict_of_order_details['amount_of_items'] > 1:
         for i in range(dict_of_order_details['amount of items']):
             additional_items += (
             """INSERT INTO order_item
@@ -30,20 +30,20 @@ def new_order(dict_of_order_details):
                 quantity = :quantity""" + i)
 
     insert_statement = text(
-        """INSERT INTO order
+        """INSERT INTO `order`
             SET person_id = (
                 SELECT id FROM person
-                WHERE full_name = :full-name),
+                WHERE full_name = :full_name),
                 note = :note;
             SET @last_order_id = LAST_INSERT_ID();
             INSERT INTO order_item
             SET order_id = @last_order_id,
-            product_id = :product-id,
+            product_id = :product_id,
             total_order_item_price = :total_order_item_price,
             quantity = :quantity""" + additional_items)
 
     db.session.connection().execute(insert_statement, dict_of_order_details)
-    db.session.connection().commit()
+    db.session.commit()
     return True
 
 
@@ -76,7 +76,7 @@ def create_orders():
 
         try:
             if (int(order_data['quantity']) > 0 
-            and is_customer_on_db(order_data['full-name'])):
+            and is_customer_on_db(order_data['full_name'])):
 
                 # The create order form has 4 inputs by default, if there are more we know that
                 # the order contains more than 1 item.
@@ -84,8 +84,8 @@ def create_orders():
                 dict_of_order_data = {}
                 for data in order_data:
                     dict_of_order_data[data] = order_data[data]
-                dict_of_order_data['total_order_item_price'] = 0
-                dict_of_order_data['amount_of_items'] = 0
+                dict_of_order_data['total_order_item_price'] = 100
+                dict_of_order_data['amount_of_items'] = 1
                 print(dict_of_order_data)
                 new_order(dict_of_order_data)
                 return redirect("/")
@@ -113,7 +113,6 @@ def search():
         # Person_name is the searched item, with SQL placeholders
         person_name = {"pn": "%" + name + "%"}
         result = db.session.connection().execute(query, person_name).all()
-        print(result)
         orders = result_to_dicts(result)
         return orders
 
