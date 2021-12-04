@@ -15,17 +15,17 @@ window.onload = function() {
   let orderItemsWrapper = $('#orderItemsInputWrapper'); // Order item inputs div
   let addItemsButton = $('#addProductAndAmount'); // "+" next to amount input
   let products = document.getElementById('product-id').innerHTML;
+  let formCounter = document.getElementById('amount-of-items')
 
   let orderItemsCount = orderItemsWrapper.length; // Amount of order items input div
-  let fieldCount = 1; // Track of total added fields
   $(addItemsButton).click(function(e) {
     if(orderItemsCount <= maxInputs){
       let htmlProductAndAmount = 
       '<div class="moreItemsWrapper">' +
         '<div class="col">' +
         '<div class="form-group">' +
-          '<label for="product-id">Select product name:</label>' +
-          '<select name="product-id' + fieldCount + '" id="product-id' + fieldCount + '" required>' +
+          '<label for="product_id">Select product name:</label>' +
+          '<select name="product_id' + orderItemsCount + '" id="product_id' + orderItemsCount + '" required>' +
             products +
           '</select>' +
         '</div>' +
@@ -33,14 +33,14 @@ window.onload = function() {
       '<div class="col">' +
         '<div class="form-group">' +
           '<label for="quantity">Amount of product:</label>' +
-          '<input type="number" placeholder="quantity" name="quantity' + fieldCount + '" min="1" required>' +
+          '<input type="number" placeholder="quantity" name="quantity' + orderItemsCount + '" min="1" required>' +
           '<button type="button" name="removeProductAndAmount" id="removeProductAndAmount" class="btn btn-success">-</button>' +
         '</div>' +
       '</div>' +
       '</div>';
-      fieldCount++;
-      $(orderItemsWrapper).append(htmlProductAndAmount);
       orderItemsCount++;
+      $(orderItemsWrapper).append(htmlProductAndAmount);
+      formCounter.value = orderItemsCount;
     }
     else {
       alert('You\'ve reached the maximum amount of fields you can have, contact the developer for more info');
@@ -55,6 +55,7 @@ window.onload = function() {
             $(this).closest('.moreItemsWrapper').remove();
             // Decrement count
             orderItemsCount--;
+            formCounter.value = orderItemsCount;
     }
     return false;
   })

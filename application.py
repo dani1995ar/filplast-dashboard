@@ -20,14 +20,15 @@ db = SQLAlchemy(app)
 # New order function, to add new order and items to the DB
 def new_order(dict_of_order_details):
     additional_items = ''
-    if dict_of_order_details['amount_of_items'] > 1:
-        for i in range(dict_of_order_details['amount of items']):
+    if int(dict_of_order_details['amount_of_items']) > 1:
+        for i in range(1, int(dict_of_order_details['amount_of_items'])):
+            i_to_str = str(i)
             additional_items += (
-            """INSERT INTO order_item
+            """
+                INSERT INTO order_item
                 SET order_id = @last_order_id,
-                product_id = :product_id""" + i + """,
-                total_order_item_price = :total_order_item_price""" + i + """,
-                quantity = :quantity""" + i)
+                product_id = :product_id""" + i_to_str + """,
+                quantity = :quantity""" + i_to_str + """;""")
 
     insert_statement = text(
         """INSERT INTO `order`
@@ -39,8 +40,7 @@ def new_order(dict_of_order_details):
             INSERT INTO order_item
             SET order_id = @last_order_id,
             product_id = :product_id,
-            total_order_item_price = :total_order_item_price,
-            quantity = :quantity""" + additional_items)
+            quantity = :quantity;""" + additional_items)
 
     db.session.connection().execute(insert_statement, dict_of_order_details)
     db.session.commit()
@@ -84,9 +84,6 @@ def create_orders():
                 dict_of_order_data = {}
                 for data in order_data:
                     dict_of_order_data[data] = order_data[data]
-                dict_of_order_data['total_order_item_price'] = 100
-                dict_of_order_data['amount_of_items'] = 1
-                print(dict_of_order_data)
                 new_order(dict_of_order_data)
                 return redirect("/")
             return apology("Incorrect name, product or amount")
