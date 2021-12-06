@@ -13,3 +13,4 @@ I decided that it was best to not show the actual company name, just for securit
 
 ### What does the app do?
 
+It allows the company to keep track of their customer's orders, the item of each order, and all of the orders of each customer, in an organized, clean and intuitive way.
