@@ -144,7 +144,7 @@ def search():
         orders = result_to_dicts(result)
         return render_template(template, orders=orders)
 
-    # Client/person full name search usign <a> from orders template
+    # Client/person full name search using <a> from orders template
     elif search_type == "full-name":
         orders = get_orders_by_customer_name(request.args.get("q"))
         return render_template(template, orders=orders)

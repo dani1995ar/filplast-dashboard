@@ -13,6 +13,8 @@
   - [Cost and price:](#cost-and-price)
   - [Product:](#product)
   - [Orders:](#orders)
+- [Issues / Challenges:](#issues--challenges)
+- [Conclusion:](#conclusion)
 # Order tracking dashboard
 
 # Video Demo:  <URL HERE>
@@ -33,7 +35,7 @@ It allows the company to keep track of their customer's orders, the item of each
 
 # How does it do it?
 
-By saving all oof the orders in an industry standard database rather than on an excel spreadsheet. This allows the company to further develop the dashboard should they wish to. It also adds some functionality that would not otherwise have been there, such as the option of easily keeping track of their cost vs. prices for each product over time (the database is design to support this feature, however in the current state the dashboard does not yet support this). The database is designed from the ground up with the company as its cornerstone, and therefore it takes into account current and potential future needs of the business, (more on this later).
+By saving all of the orders in an industry standard database rather than on an excel spreadsheet. This allows the company to further develop the dashboard should they wish to. It also adds some functionality that would not otherwise have been there, such as the option of easily keeping track of their cost vs. prices for each product over time (the database is design to support this feature, however in the current state the dashboard does not yet support this). The database is designed from the ground up with the company as its cornerstone, and therefore it takes into account current and potential future needs of the business, (more on this later).
 
 The entire app is meant to be a web app (this is because the business is currently using Google sheets which is available on mobile, and I wanted to develop something that could have the same benefits to the solution that they are currently using), the app is responsive and is built using Flask, mysql, javascript, bootstrap and jquery.
 
@@ -69,6 +71,7 @@ An order can have multiple items, and therefore the user can add or remove how m
 ## Each name is an anchor:
 
 ![searchbar screenshot](static/Names%20are%20anchors.gif)
+
 In the landing page I made it so that if the user clicks on the customer name, they are immediately redirected to a page that displays all of that customer's orders, the items as well as the totals.
 
 ## Order numbers are anchors too:
@@ -98,3 +101,11 @@ The hearth of the company is its products, that is why the corresponding portion
 ![searchbar screenshot](static/order%20ERD.png)
 
 Finally the last item from the database I would like to explore a bit more is the  \`order\`  table. The order table includes which customer order is it, the date the order is required to be delivered, the date the order was placed, as well as some notes that might be important to keep for each order, even though the dashboard does not support it yet, I also made sure to include a property for any potential discounts and to include the total price of each order item. All of these decisions were discussed with the final user of the dashboard.
+
+# Issues / Challenges:
+
+Most of the problems I had during the development of this project where related in one way or another to the ORM and or the database. This is because I design an schema that could support functions that are not yet implemented in the application, this is because I it is much easier and faster to develop new features for an app with a database that already support these features, rather than migrating an existing database to a new one, just so that the app can support a new feature. An instance of this is the way to store passwords in the database (so that in the future the app can me used by both the company and their customers), I knew storing them as plaintext was not a good idea at all, what I did not know however was just how many ways of storing passwords there are, and just like this I spent some good 8-10 hours researching about key derivation functions, hashing algorithms and so on. And just like that, and with every little detail or feature that I needed to or was planning to implement, I spent countless hours researching topic after topic and reading discussion after discussion, this, I believe, was the biggest challenge, because every step of the way I was unsure what was "the correct way to do things in this specific scenario", I can't say I enjoyed the process, yet I love the fact that I now know that much more about that many topics.
+
+# Conclusion: 
+
+The current status of this app is "still under development" and would probably be for the forseeable future, so far I have learnt a lot about so many different topics, such as JWT, DB, password hashing and so much more, that I am eager and looking forward to continue with this project, and to keep building upon the base app I developed so far.
