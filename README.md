@@ -1,5 +1,5 @@
 - [Order tracking dashboard](#order-tracking-dashboard)
-- [Video Demo:  <URL HERE>](#video-demo--url-here)
+- [Video Demo:  https://youtu.be/3oe57_YFgPo](#video-demo--httpsyoutube3oe57_yfgpo)
 - [Description:](#description)
 - [What does the app do?](#what-does-the-app-do)
 - [How does it do it?](#how-does-it-do-it)
@@ -17,7 +17,7 @@
 - [Conclusion:](#conclusion)
 # Order tracking dashboard
 
-# Video Demo:  <URL HERE>
+# Video Demo:  https://youtu.be/3oe57_YFgPo
 
 # Description:
 ![screenshot with overview of the page](static/Screen%20Shot%202021-12-06%20at%205.55.23%20PM.png)
@@ -35,7 +35,7 @@ It allows the company to keep track of their customer's orders, the item of each
 
 # How does it do it?
 
-By saving all of the orders in an industry standard database rather than on an excel spreadsheet. This allows the company to further develop the dashboard should they wish to. It also adds some functionality that would not otherwise have been there, such as the option of easily keeping track of their cost vs. prices for each product over time (the database is design to support this feature, however in the current state the dashboard does not yet support this). The database is designed from the ground up with the company as its cornerstone, and therefore it takes into account current and potential future needs of the business, (more on this later).
+By saving all of the orders in an industry standard database rather than on an excel spreadsheet. This allows the company to further develop the dashboard, should they wish to. It also adds some functionality that would not otherwise have been there, such as the option of easily keeping track of their cost vs. prices for each product over time (the database is design to support this feature, however in the current state the dashboard does not yet support this). The database is designed from the ground up with the company as its cornerstone, and therefore it takes into account current and potential future needs of the business, (more on this later).
 
 The entire app is meant to be a web app (this is because the business is currently using Google sheets which is available on mobile, and I wanted to develop something that could have the same benefits to the solution that they are currently using), the app is responsive and is built using Flask, mysql, javascript, bootstrap and jquery.
 
@@ -46,7 +46,7 @@ The submitted app is just the basic part of what hopefully will be an entire sol
 ## search bar:
 ![searchbar screenshot](static/search%20bar%20screenshot.png)
 
-The dashboard comes with a useful search bar that searches for the customer name, and displays all of the orders the curstome has placed, as well of all the items each order has. The search bar uses the following MYSQL function on the back-end:
+The dashboard comes with a useful search bar that searches for the customer name, and displays all of the orders the curstome has placed, as well of all the items each order has. The search bar uses the following MYSQL statement on the back-end:
 
 ```mysql
 SELECT o.note, o.id, p.full_name, pr.name, oi.quantity, cp.price FROM `order` AS o
@@ -56,12 +56,12 @@ SELECT o.note, o.id, p.full_name, pr.name, oi.quantity, cp.price FROM `order` AS
         JOIN cost_price AS cp ON cp.product_id = pr.id
         WHERE p.full_name LIKE :pn
 ```
-So that if the user enters a full or partial name of the customer he can easily find all of the orders associated with him.
+So that if the user enters a full or partial name of the customer he can easily find all of the orders associated with the person.
 
 ## Name suggestion with autocomplete for new orders:
 ![autocomplete gif](static/name%20suggestion%20gif.gif)
 
-When creating a new order, the form will start suggesting existing customer names, and if the user click on them it will fill the input name automatically with the customer's full name.
+When creating a new order, the form will start suggesting existing customer names, and if the user click on them it will fill the sanitized input name automatically with the customer's full name.
 
 ## Multiple items in one order:
 ![adding items to order gif](satic/../static/Adding%20items%20to%20order.gif)
@@ -104,7 +104,7 @@ Finally the last item from the database I would like to explore a bit more is th
 
 # Issues / Challenges:
 
-Most of the problems I had during the development of this project where related in one way or another to the ORM and or the database. This is because I design an schema that could support functions that are not yet implemented in the application, this is because I it is much easier and faster to develop new features for an app with a database that already support these features, rather than migrating an existing database to a new one, just so that the app can support a new feature. An instance of this is the way to store passwords in the database (so that in the future the app can me used by both the company and their customers), I knew storing them as plaintext was not a good idea at all, what I did not know however was just how many ways of storing passwords there are, and just like this I spent some good 8-10 hours researching about key derivation functions, hashing algorithms and so on. And just like that, and with every little detail or feature that I needed to or was planning to implement, I spent countless hours researching topic after topic and reading discussion after discussion, this, I believe, was the biggest challenge, because every step of the way I was unsure what was "the correct way to do things in this specific scenario", I can't say I enjoyed the process, yet I love the fact that I now know that much more about that many topics.
+Most of the problems I had during the development of this project where related in one way or another to the ORM and or the database. This is because I designed an schema that could support functions that are not yet implemented in the application, as it is much easier and faster and easier to develop new features for an app with a database that already support these features, rather than migrating an existing database to a new one, just so that the app can support a new feature. An instance of this is the way to store passwords in the database (so that in the future the app can be used by both the company and their customers), I knew storing them as plaintext was not a good idea at all, what I did not know however was just how many ways of storing passwords there are, and just like this I spent some good 8-10 hours researching about key derivation functions, hashing algorithms and so on. And just like that, and with every little detail or feature that I needed to or was planning to implement, I spent countless hours researching topic after topic and reading discussion after discussion, this, I believe, was the biggest challenge, because every step of the way I was unsure what was "the correct way to do things in this specific scenario", I can't say I enjoyed the process, yet I love the fact that I now know that much more about that many topics.
 
 # Conclusion: 
 
